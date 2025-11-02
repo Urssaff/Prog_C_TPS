@@ -1,7 +1,7 @@
 # PLP
 Principes des Langages de Programmation
 
-## Année: 2024-2025
+## Année: 2025-2026
 ### Sujets de travaux pratiques (Groupe 1 et 2 - TP)
 - [TP1](Groupe1/TP1/TP1.md)
 - [TP2](Groupe1/TP2/TP2.md)
