@@ -17,4 +17,6 @@ int main(){
         var_int=var_int/2;
     }
     printf("%s",result);
+
+    free(result);
 }
