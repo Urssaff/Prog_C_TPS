@@ -19,5 +19,7 @@ int main(){
     printf("Copie de chaine 1 dans chaine 2 : \n");
     printf("Chaîne 1 : %s\nChaîne 2 : %s\n",chaine1,chaine2);
     printf("Chaînes concaténées : %s\n",concat);
+    free(chaine1);
+    free(chaine2);
     return 0;
 }

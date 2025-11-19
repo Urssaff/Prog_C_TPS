@@ -36,4 +36,10 @@ int main(){
     for(int i=0; i<5; i++){
         printf("Etudiant numéro %d : { \n\tNom : %s,\n\tPrénom : %s,\n\tAdresse : %s,\n\tNotes : %s \n}\n",i+1,liste[i].nom,liste[i].prenom,liste[i].adresse,liste[i].notes);
     }
+
+    free(liste);
+    free(nom);
+    free(prenom);
+    free(adresse);
+    free(notes);
 }
