@@ -14,6 +14,6 @@
 * Fonctionnement de fgets dans le cas où la dernière ligne d'un fichier est une ligne vide.
 
 # Commentaires
-* 
+* Utilisation d'un syscall dans le 2.8 pour n'utiliser aucune librairie.
 * 
 
