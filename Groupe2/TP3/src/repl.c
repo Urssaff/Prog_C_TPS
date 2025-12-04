@@ -133,7 +133,8 @@ int main()
         for(long unsigned int j=0; j<(sizeof(locale_list)/sizeof(locale_list[0]));j++){
             Commande* cmd_man=locale_list[j].local_man;
             for(long unsigned int i=0; i<CMD_NUMBER;i++){
-                if(strncmp(cmd_man[i].nom,commande,strlen(cmd_man[i].nom))==0){
+                int cmd_proxi=strncmp(cmd_man[i].nom,commande,strlen(cmd_man[i].nom));
+                if(cmd_proxi==0){
                     cmd_to_exec=i;
                     locale=&locale_list[j];
                     break;
@@ -149,7 +150,12 @@ int main()
                 printf("Date: %s", ctime(&date));
                 break;
             case 1:
-                traiter_echo(commande);
+                if(strlen(commande)==0){
+                    printf("Argument manquant, veuillez entrer un argument après votre commande.");
+                }
+                else{
+                    traiter_echo(commande);
+                }
                 break;
             case 2:
                 afficher_aide(locale);
@@ -161,7 +167,7 @@ int main()
                 afficher_version();
                 break;
             default:
-                printf("Commande non reconnue. Essayez 'echo <text>' pour afficher du texte, tapez 'date' pour connaître la date, ou tapez 'quit' pour quitter.\n");
+                printf("Commande non reconnue. Essayez 'help' pour connaître les fonctions disponibles.\n");
         }
         printf("\n"); // Saut de ligne après la sortie
     }
