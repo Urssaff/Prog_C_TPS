@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
+#include <stdlib.h>
+#include "lexer.h"
+#include "parseur.h"
+#include "evaluation.h"
 
 #define VERSION 1.0
 #define CMD_NUMBER 5
@@ -109,6 +113,35 @@ int traiter_quit(Locale* locale,int* continuer){
     return 0;
 }
 
+int traiter_calcul(char* commande){
+    Token* tokens=malloc(1*sizeof(Token));
+    Expression* expression=malloc(1*sizeof(Expression));
+    Resultat* resultat=malloc(1*sizeof(Resultat));
+    int tokenNB=0;
+    int resultparser=1;
+    int resulttokenizer=tokenizer(commande, &tokens, &tokenNB);
+    if(resulttokenizer==0){
+        resultparser=parser(&tokens,&tokenNB,expression);
+        if(resultparser==0){
+            //printf("%s %d %d",expression->operation.operateur, expression->operande1.entier, expression->operande2.entier);
+            eval(expression,resultat);
+            if(resultat->isfloat==0){
+                printf("%f\n",resultat->flottant);
+            }
+            else{
+                printf("%d\n",resultat->entier);
+            }
+        }
+    }
+    free(resultat);
+    free(tokens);
+    free(expression);
+    if(resulttokenizer==0 || resultparser==1){
+        return 1;
+    }
+    return 0;
+}
+
 int main()
 {
     int continuer = 1; // Variable pour contrôler la boucle principale
@@ -167,6 +200,7 @@ int main()
                 afficher_version();
                 break;
             default:
+                traiter_calcul(commande);
                 printf("Commande non reconnue. Essayez 'help' pour connaître les fonctions disponibles.\n");
         }
         printf("\n"); // Saut de ligne après la sortie
