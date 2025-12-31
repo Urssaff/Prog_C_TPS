@@ -123,7 +123,6 @@ int traiter_calcul(char* commande){
     if(resulttokenizer==0){
         resultparser=parser(&tokens,&tokenNB,expression);
         if(resultparser==0){
-            //printf("%s %d %d",expression->operation.operateur, expression->operande1.entier, expression->operande2.entier);
             eval(expression,resultat);
             if(resultat->isfloat==0){
                 printf("%f\n",resultat->flottant);

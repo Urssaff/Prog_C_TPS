@@ -3,8 +3,8 @@
 #include <time.h>
 #include <stdlib.h>
 #include "lexer.h"
-#include "parseur.h"
-//#include "evaluation.h"
+#include "parser.h"
+#include "evaluation.h"
 
 #define VERSION 1.0
 #define CMD_NUMBER 5
@@ -116,25 +116,40 @@ int traiter_quit(Locale* locale,int* continuer){
 int traiter_calcul(char* commande){
     Token* tokens=malloc(1*sizeof(Token));
     Token* expression=malloc(1*sizeof(Token));
-    //Resultat* resultat=malloc(1*sizeof(Resultat));
+    Resultat* resultat=malloc(1*sizeof(Resultat));
     int tokenNB=0;
+    int expressionNB=0;
     int resultparser=1;
     int resulttokenizer=tokenizer(commande, &tokens, &tokenNB);
     if(resulttokenizer==0){
-        expression=realloc(expression,tokenNB*sizeof(tokenNB));
-        resultparser=parser(&tokens,&tokenNB,expression);
-        /*if(resultparser==0){
-            //printf("%s %d %d",expression->operation.operateur, expression->operande1.entier, expression->operande2.entier);
-            eval(expression,resultat);
+        //expression=realloc(expression,tokenNB*sizeof(tokenNB));
+        resultparser=parser(&tokens,&tokenNB,&expression,&expressionNB);
+        for(int i=0; i<expressionNB; i++){
+            Token cur_token=expression[i];
+            switch(cur_token.type){
+                case 0:
+                    printf("%s ",cur_token.operateur);
+                    break;
+                case 1:
+                    printf("%d ",cur_token.entier);
+                    break;
+                case 2:
+                    printf("%f ",cur_token.flottant);
+                    break;
+            }
+        }
+        printf("\n");
+        if(resultparser==0){
+            eval(&expression,&expressionNB,resultat);
             if(resultat->isfloat==0){
                 printf("%f\n",resultat->flottant);
             }
             else{
                 printf("%d\n",resultat->entier);
             }
-        }*/
+        }
     }
-    //free(resultat);
+    free(resultat);
     free(tokens);
     free(expression);
     if(resulttokenizer==0 || resultparser==1){
