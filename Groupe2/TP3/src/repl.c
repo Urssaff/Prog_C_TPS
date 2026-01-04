@@ -9,11 +9,6 @@
 #define VERSION 1.0
 #define CMD_NUMBER 5
 
-/**
- * Programme qui simule un interpréteur de commandes simple.
- * Il lit les commandes utilisateur et les traite en fonction de leur contenu.
- */
-
 typedef struct commande{
     char nom[15];
     char expression[100];
@@ -83,12 +78,11 @@ int afficher_version(){
 int traiter_echo(char* commande){
     printf("Echo: ");
 
-    // Imprime la chaîne
     for (int i = 5; commande[i] != '\0'; i++)
     {
         printf("%c", commande[i]);
     }
-    printf("\n"); // Saut de ligne après la sortie
+    printf("\n");
 
     return 0;
 }
@@ -143,25 +137,20 @@ int traiter_calcul(char* commande){
 
 int main()
 {
-    int continuer = 1; // Variable pour contrôler la boucle principale
+    int continuer = 1;
 
-    // Boucle principale qui lit et traite les commandes utilisateur
     while (continuer)
     {
-        printf("> "); // Affiche le prompt de commande
+        printf("> ");
 
-        // Buffer pour stocker la commande utilisateur
         char commande[1024];
 
-        // Lit la commande utilisateur et la stocke dans le buffer
         fgets(commande, sizeof(commande), stdin);
 
-        // Enlève le caractère de fin de ligne ajouté par fgets
         commande[strcspn(commande, "\n")] = 0;
 
         int cmd_to_exec=-1;
         Locale* locale=NULL;
-        // Traite la commande en fonction de son contenu
         for(long unsigned int j=0; j<(sizeof(locale_list)/sizeof(locale_list[0]));j++){
             Commande* cmd_man=locale_list[j].local_man;
             for(long unsigned int i=0; i<CMD_NUMBER;i++){
