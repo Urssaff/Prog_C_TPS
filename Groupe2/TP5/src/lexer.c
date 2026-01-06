@@ -10,7 +10,7 @@ int tokenizer(char* expression, Token** tokens, int* tokenNB){
         printf("%s\n",token);
         int val_int;
         float val_float;
-        if(strcmp(token,"+")==0||strcmp(token,"/")==0||strcmp(token,"*")==0||(strncmp(token,"-",1)==0&&strlen(token)==1)||strcmp(token,"(")==0||strcmp(token,")")==0){
+        if(strcmp(token,"+")==0||strcmp(token,"/")==0||strcmp(token,"*")==0||(strncmp(token,"-",1)==0&&strlen(token)==1)||strcmp(token,"(")==0||strcmp(token,")")==0||strcmp(token,"=")==0){
             strcpy((*tokens)[*tokenNB].operateur,token);
             (*tokens)[*tokenNB].type=0;
             *tokenNB=*tokenNB+1;

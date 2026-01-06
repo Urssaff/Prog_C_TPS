@@ -58,7 +58,7 @@ int afficher_variable(Token** tokens, Variable** variables, int* variableNB){
     Variable exist_var;
     for(int i=0; i<*variableNB;i++){
         Variable cur_var=(*variables)[i];
-        if(strcmp(cur_var.chaine,var_search.chaine)==0){
+        if(strcmp(cur_var.nom,var_search.chaine)==0){
             trouve=1;
             exist_var=cur_var;
             break;
@@ -84,35 +84,43 @@ int assigner_variable(Token** tokens, Variable** variables, int* variableNB){
     Token var_search=(*tokens)[0];
     if((*tokens)[1].type==0 && strcmp((*tokens)[1].operateur,"=")==0){
         int trouve=0;
-        Variable exist_var;
+        Variable* exist_var;
         for(int i=0; i<*variableNB;i++){
-            Variable cur_var=(*variables)[i];
-            if(strcmp(cur_var.chaine,var_search.chaine)==0){
+            Variable* cur_var=&(*variables)[i];
+            if(strcmp((*cur_var).nom,var_search.chaine)==0){
                 trouve=1;
                 exist_var=cur_var;
                 break;
             }
         }
         if(trouve==1){
-            switch(exist_var.type){
+            int modif=0;
+            switch((*exist_var).type){
                 case 0:
                     if((*tokens)[2].type==0){
-
+                        modif=1;
+                        strcpy((*exist_var).chaine,(*tokens)[2].operateur);
                     }
                     else if((*tokens)[2].type==3){
-
+                        modif=1;
+                        strcpy((*exist_var).chaine,(*tokens)[2].chaine);
                     }
                     break;
                 case 1:
                     if((*tokens)[2].type==1){
-
+                        modif=1;
+                        (*exist_var).entier=(*tokens)[2].entier;
                     }
                     break;
                 case 2:
-                    if((*tokens)[2].type){
-                        
+                    if((*tokens)[2].type==2){
+                        modif=1;
+                        (*exist_var).flottant=(*tokens)[2].flottant;
                     }
                     break;
+            }
+            if(modif==0){
+                printf("Erreur : Variable déjà définie. Tentative d'assignation d'une valeur d'un mauvais type.\n");
             }
         }
         else{
@@ -134,6 +142,7 @@ int assigner_variable(Token** tokens, Variable** variables, int* variableNB){
                     strcpy((*variables)[*variableNB].chaine,(*tokens)[2].chaine);
                     break;
             }
+            strcpy((*variables)[*variableNB].nom,var_search.chaine);
             *variableNB=*variableNB+1;
             Variable* new_var=realloc(*variables,(*variableNB+1)*sizeof(Variable));
             if(new_var!=NULL){
@@ -233,7 +242,7 @@ int traiter_calcul(char* commande, Variable** variables, int* variableNB){
                     premier_chaine=1;
                 }
             }
-            else if(cur_token.type==0 && strcmp(cur_token.operateur,"=")){
+            else if(cur_token.type==0 && strcmp(cur_token.operateur,"=")==0){
                 assignation=1;
             }
         }
@@ -257,7 +266,7 @@ int traiter_calcul(char* commande, Variable** variables, int* variableNB){
             }
         }
         else{
-            printf("Erreur de syntaxe");
+            printf("Erreur de syntaxe\n");
         }
     }
     free(resultat);
