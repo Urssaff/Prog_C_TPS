@@ -5,7 +5,6 @@
 #include "lexer.h"
 #include "parser.h"
 #include "evaluation.h"
-
 #define VERSION 1.0
 #define CMD_NUMBER 5
 
@@ -108,7 +107,6 @@ int traiter_quit(Locale* locale,int* continuer){
 }
 
 int traiter_calcul(char* commande, Variable** variables, int* variableNB){
-    // Tokenization
     Token* tokens = malloc(sizeof(Token));
     int tokenNB = 0;
 
@@ -118,7 +116,6 @@ int traiter_calcul(char* commande, Variable** variables, int* variableNB){
         return 1;
     }
 
-    // Évaluation (qui gère tout : parser, affichage, assignation)
     eval(&tokens, &tokenNB, variables, variableNB);
     
     free(tokens);

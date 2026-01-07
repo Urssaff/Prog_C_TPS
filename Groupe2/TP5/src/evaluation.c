@@ -1,5 +1,6 @@
 #include "evaluation.h"
 #include "parser.h"
+#include "lambda.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -22,7 +23,10 @@ int eval(Token** tokens, int* tokenNB, Variable** variables, int* variableNB){
         }
     }
 
-    if(contient_chaine==1 && premier_chaine==1 && *tokenNB==1){
+    if (est_lambda_tokens(tokens, *tokenNB)) {
+        return traiter_lambda_tokens(tokens, *tokenNB, variables, variableNB);
+    }
+    else if(contient_chaine==1 && premier_chaine==1 && *tokenNB==1){
         return afficher_variable(tokens,variables,variableNB);
     }
     else if(contient_chaine==1 && premier_chaine==1 && *tokenNB==3 && assignation==1){
