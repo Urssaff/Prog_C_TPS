@@ -7,7 +7,6 @@ int tokenizer(char* expression, Token** tokens, int* tokenNB){
     const char* separator=" ";
     char* token=strtok(expression,separator);
     while(token != NULL){
-        printf("%s\n",token);
         int val_int;
         float val_float;
         if(strcmp(token,"+")==0||strcmp(token,"/")==0||strcmp(token,"*")==0||(strncmp(token,"-",1)==0&&strlen(token)==1)||strcmp(token,"(")==0||strcmp(token,")")==0||strcmp(token,"=")==0){
